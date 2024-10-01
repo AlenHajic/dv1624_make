@@ -1,0 +1,14 @@
+FILES = $(wildcard *.adoc)
+NEWFILE = combined.adoc
+
+default: program
+
+program: $(NEWFILE)
+	asciidoctor $(NEWFILE) -o $(NEWFILE:.adoc=.html)
+	asciidoctor-pdf $(NEWFILE) -o $(NEWFILE:.adoc=.pdf)
+
+$(NEWFILE): $(FILES)
+	cat $(FILES) > $(NEWFILE)
+
+clean:
+	rm -f $(NEWFILE) $(NEWFILE:.adoc=.html) $(NEWFILE:.adoc=.pdf)
