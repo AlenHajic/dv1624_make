@@ -20,6 +20,7 @@ else
 	OUTNAME = book_generator.exe
 endif
 
+
 default: program run_book
 
 program: $(OBJECT)
