@@ -1,38 +1,37 @@
-OUTNAME = book_generator.exe
-SOURCE = book_generator.cpp   
-OBJECT = $(SOURCE:.cpp=.o)
-CC = g++
-FLAGS = -Wall -O2
+EXE = book_generator.exe
+SRC = book_generator.cpp
+OBJ = $(SRC:.cpp=.o)
+COMPILER = g++
+CFLAGS = -Wall -O2
 
-OSNAME = $(shell uname -s)
+SYS = $(shell uname)
 
-ifeq ($(OSNAME), Linux)
-	OSMSG = "Compiling for Linux"
-	FLAGS += -DLINUX
-	OUTNAME = book_generator.exe
-else ifeq ($(OSNAME), Darwin)
-	OSMSG = "Compiling for Mac"
-	FLAGS += -DMAC
-	OUTNAME = book_generator.dmg
+ifeq ($(SYS), Linux)
+	CFLAGS += -DLINUX
+	MESSAGE = "building for Linux"
+	EXE = book_generator.exe
+else ifeq ($(SYS), Darwin)
+	CFLAGS += -DMAC
+	MESSAGE = "building for mac"
+	EXE = book_generator.dmg
 else
-	OSMSG = "Compiling for Windows"
-	FLAGS += -DWINDOWS
-	OUTNAME = book_generator.exe
+	CFLAGS += -DWINDOWS
+	MESSAGE = "building for Windows"
+	EXE = book_generator.exe
 endif
 
+all: build run_book
 
-default: program run_book
-
-program: $(OBJECT)
-	@echo $(OSMSG)
-	$(CC) $(FLAGS) -o $(OUTNAME) $(OBJECT)
+build: $(OBJ)
+	@echo $(MESSAGE)
+	$(COMPILER) $(CFLAGS) -o $(EXE) $(OBJ)
 
 run_book:
-	./$(OUTNAME)              
-	$(MAKE) -f makefile.book.mak  
+	./$(EXE)
+	$(MAKE) -f makefile.book.mak
 
-book_generator.o: book_generator.cpp
-	$(CC) $(FLAGS) -c book_generator.cpp -o book_generator.o
+$(OBJ): $(SRC)
+	$(COMPILER) $(CFLAGS) -c $(SRC) -o $(OBJ)
 
 clean:
-	rm -f *.exe *.adoc *.md *.o
+	rm -f *.adoc *.md *.exe *.o

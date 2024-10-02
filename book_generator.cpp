@@ -2,6 +2,9 @@
 #include <fstream>
 #include <string>
 #include <cstdlib> 
+#include <ctime>
+
+// srand(time(NULL));
 
 // Generate random words
 std::string generateRandomWord(int length) {
@@ -24,6 +27,7 @@ std::string generateChapterContent() {
 }
 
 int main() {
+    // srand(time(NULL));
     std::string author;
     std::cout << "Enter the name of the author (your name): ";
     std::getline(std::cin, author);
