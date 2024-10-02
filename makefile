@@ -1,5 +1,5 @@
 OUTNAME = book_generator.exe
-SOURCE = $(wildcard *.cpp)
+SOURCE = book_generator.cpp   
 OBJECT = $(SOURCE:.cpp=.o)
 CC = g++
 FLAGS = -Wall -O2
@@ -20,18 +20,18 @@ else
 	OUTNAME = book_generator.exe
 endif
 
-default: program
-	./$(OUTNAME)
+default: program run_book
 
 program: $(OBJECT)
 	@echo $(OSMSG)
 	$(CC) $(FLAGS) -o $(OUTNAME) $(OBJECT)
 
-%.o: %.cpp
-	$(CC) $(FLAGS) -c $< -o $@
+run_book:
+	./$(OUTNAME)              
+	$(MAKE) -f makefile.book.mak  
 
-book:
-	$(MAKE) -f ./Makefile.book
+book_generator.o: book_generator.cpp
+	$(CC) $(FLAGS) -c book_generator.cpp -o book_generator.o
 
 clean:
-	rm *.exe *.adoc *.md *.o
+	rm -f *.exe *.adoc *.md *.o
